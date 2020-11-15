@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\NewsController;
+use App\Http\Resources\Contact as ContactResource;
+use App\Models\Contact;
+use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +21,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('slides', function () {
+    return Slide::all();
+})->name("slides");
+
+Route::get('contacts', function () {
+    return ContactResource::collection(Contact::all());
+})->name('contacts');
+
+Route::get('news', NewsController::class);
