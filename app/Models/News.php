@@ -16,6 +16,10 @@ class News extends Model
         'content',
     ];
 
+    protected $casts = [
+        'photo' => 'array'
+    ];
+
     /**
      * @param $value
      *
