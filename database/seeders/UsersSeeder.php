@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersSeeder extends Seeder
 {
@@ -14,7 +17,16 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->count(2)->create();
+        $users = [
+            [
+                'name' => 'admin',
+                'email' => 'admin@email.com',
+                'password' => Hash::make('AdminUser'),
+                'remember_token' => Str::random(10),
+                'role_id' => Role::getAdmin()->first()->id
+            ]
+        ];
 
+        User::insert($users);
     }
 }
