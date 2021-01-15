@@ -9,14 +9,13 @@ use Illuminate\Http\Request;
 class NewsController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * @param Request $request
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return NewsCollection
      */
     public function __invoke(Request $request)
     {
         $request->has('count')?$count=$request->get('count'):$count=5;
-        return NewsCollection::collection(News::paginate($count));
+        return new NewsCollection(News::paginate($count));
     }
 }

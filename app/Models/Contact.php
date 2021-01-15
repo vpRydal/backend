@@ -16,10 +16,5 @@ class Contact extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    /**
-     * Get TypeContact
-     */
-    public function typeContact(){
-        return $this->belongsTo('App\Models\TypeContact');
-    }
+
 }

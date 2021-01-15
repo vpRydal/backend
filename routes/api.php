@@ -27,7 +27,7 @@ Route::get('slides', function () {
 })->name("slides");
 
 Route::get('contacts', function () {
-    return ContactResource::collection(Contact::all());
+    return Contact::all();
 })->name('contacts');
 
 Route::get('news', NewsController::class);
