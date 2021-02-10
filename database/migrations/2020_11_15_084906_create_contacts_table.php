@@ -15,8 +15,9 @@ class CreateContactsTable extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string("type");
+            $table->boolean('is_rent_department')->default(true);
             $table->string("value")->unique();
+            $table->string("type")->default('phone');//or email
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

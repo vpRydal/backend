@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\News;
-use http\Url;
 use Illuminate\Database\Seeder;
 
 class NewsSeeder extends Seeder

@@ -9,6 +9,9 @@ class Contact extends Model
 {
     use HasFactory;
 
+    const TYPE_PHONE="phone";
+    const TYPE_EMAIL="email";
+
     /**
      * Get the own User
      */
