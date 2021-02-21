@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
                 UsersSeeder::class,
                 NewsSeeder::class,
                 SlidesSeeder::class,
-                ContactsSeeder::class
+                ContactsSeeder::class,
+                RealtySeeder::class,
+                RealtyTypeSeeder::class
             ]
         );
     }
