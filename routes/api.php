@@ -67,7 +67,7 @@ Route::get(
 );
 
 Route::get(
-    'types/',
+    'types',
     function () {
         return RealtyType::all();
     }
