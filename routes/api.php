@@ -5,6 +5,7 @@ use \App\Http\Controllers\RealtyController;
 use App\Http\Resources\Contact as ContactResource;
 use App\Models\Contact;
 use App\Models\Realty;
+use App\Models\RealtyType;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,20 @@ Route::get(
     'realty/{id}',
     function ($id) {
         return Realty::find($id);
+    }
+);
+
+Route::get(
+    'type/{id}',
+    function ($id) {
+        return RealtyType::find($id);
+    }
+);
+
+Route::get(
+    'types/',
+    function () {
+        return RealtyType::all();
     }
 );
 
