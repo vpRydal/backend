@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
                 NewsSeeder::class,
                 SlidesSeeder::class,
                 ContactsSeeder::class,
-                RealtySeeder::class,
-                RealtyTypeSeeder::class
+                RealtyTypeSeeder::class,
+                RealtySeeder::class
             ]
         );
     }

@@ -15,4 +15,8 @@ class Realty extends Model
     public function realtyType(){
         return $this->belongsTo(RealtyType::class);
     }
+
+    protected $casts = [
+        'photo' => 'array',
+    ];
 }
