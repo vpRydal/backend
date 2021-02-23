@@ -16,6 +16,7 @@ class CreateRealtiesTable extends Migration
         Schema::create('realties', function (Blueprint $table) {
             $table->id();
             $table->text('description');
+            $table->text('img_path');
             $table->string('name');
             $table->boolean('renovation');
             $table->boolean('heating');

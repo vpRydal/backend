@@ -37,6 +37,7 @@ class RealtyFactory extends Factory
             'latitude' => mt_rand( 44550000, 44600000) / 1000000,
             'longitude' => mt_rand( 33450000, 33500000) / 1000000,
             'user_id' => 1,
+            'img_path' => '/storage/image/image.jpg',
             'type_id' => random_int(1, 4),
             'photo'=> [
                 '/storage/image/image.jpg',

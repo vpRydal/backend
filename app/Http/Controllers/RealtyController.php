@@ -47,7 +47,7 @@ class RealtyController extends Controller
     public function filter(Request $request){
         $realty=Realty::whereNotNull('description');
         if($request->has('type')){
-            $realty->where(['type'=>$request->get('type')]);
+            $realty->where(['type_id' => $request->get('type')]);
         }
         if($request->has('renovation')){
             $realty->where(['renovation'=>$request->get('renovation')]);
