@@ -46,23 +46,23 @@ class RealtyController extends Controller
      */
     public function filter(Request $request){
         $realty=Realty::whereNotNull('description');
-        if($request->has('type')){
-            $realty->where(['type_id' => $request->get('type')]);
+        if($request->has('types')){
+            $realty->whereIn('type_id', $request->get('types'));
         }
         if($request->has('renovation')){
-            $realty->where(['renovation'=>$request->get('renovation')]);
+            $realty->where(['renovation'=> 1]);
         }
         if($request->has('heating')){
-            $realty->where(['heating'=>$request->get('heating')]);
+            $realty->where(['heating'=> 1]);
         }
         if($request->has('restroom')){
-            $realty->where(['restroom'=>$request->get('restroom')]);
+            $realty->where(['restroom'=> 1]);
         }
         if($request->has('access')){
-            $realty->where(['access'=>$request->get('access')]);
+            $realty->where(['access'=> 1]);
         }
         if($request->has('furniture')){
-            $realty->where(['furniture'=>$request->get('furniture')]);
+            $realty->where(['furniture'=> 1]);
         }
         if($request->has('energy')){
             $realty->where(['energy'=>$request->get('energy')]);
