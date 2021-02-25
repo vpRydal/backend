@@ -49,6 +49,9 @@ class RealtyController extends Controller
         if($request->has('types')){
             $realty->whereIn('type_id', $request->get('types'));
         }
+        if($request->has('exceptedId')){
+            $realty->whereNotIn('id', $request->get('exceptedId'));
+        }
         if($request->has('renovation')){
             $realty->where(['renovation'=> 1]);
         }
