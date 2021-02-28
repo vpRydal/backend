@@ -22,6 +22,7 @@ class CreateRealtiesTable extends Migration
             $table->boolean('heating');
             $table->float('area');
             $table->integer('price');
+            $table->integer('price_per_metr');
             $table->boolean('restroom');
             $table->boolean('access');
             $table->boolean('furniture');

@@ -22,14 +22,15 @@ class RealtyFactory extends Factory
     public function definition()
     {
         $date = $this->faker->dateTimeBetween('-5years');
-
+        $price=$this->faker->randomFloat(2, 100, 10000);
         return [
             'description' => $this->faker->unique()->realText(700),
             'name' => $this->faker->unique()->realText(50),
             'renovation' => (bool) mt_rand(0,1),
             'heating' => (bool) mt_rand(0,1),
             'area' => $this->faker->randomFloat(2, 200, 10000),
-            'price' => $this->faker->randomFloat(2, 100, 10000),
+            'price' => $price,
+            'price_per_metr' => $price/100,
             'restroom' => (bool) mt_rand(0,1),
             'access' => (bool) mt_rand(0,1),
             'furniture' => (bool) mt_rand(0,1),

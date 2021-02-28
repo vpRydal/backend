@@ -45,6 +45,7 @@ Route::get(
 
 Route::get('news', NewsController::class);
 
+Route::get('realties/minmax', [RealtyController::class, 'gitMinMax']);
 
 Route::get('realties', [RealtyController::class, 'realties']);
 
