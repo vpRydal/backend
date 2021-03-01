@@ -106,13 +106,13 @@ class RealtyController extends Controller
             $realty->where('longitude', '<=', $request->get('longitudeMax'));
         }
         if ($request->has('priceMin')) {
-            $realty->where('price', '=>', $request->get('priceMin'));
+            $realty->where('price', '>=', $request->get('priceMin'));
         }
         if ($request->has('priceMax')) {
             $realty->where('price', '<=', $request->get('priceMax'));
         }
         if ($request->has('pricePerMetrMin')) {
-            $realty->where('price_per_metr', '=>', $request->get('pricePerMetrMin'));
+            $realty->where('price_per_metr', '>=', $request->get('pricePerMetrMin'));
         }
         if ($request->has('pricePerMetrMax')) {
             $realty->where('price_per_metr', '<=', $request->get('pricePerMetrMax'));
