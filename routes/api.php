@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use \App\Http\Controllers\RealtyController;
 use App\Http\Resources\Contact as ContactResource;
@@ -74,3 +75,18 @@ Route::get(
     }
 );
 
+
+Route::post('login', [AuthController::class, 'login']);
+
+Route::group(
+    ['middleware' => ['auth:sanctum']],
+    function () {
+        Route::get(
+            '/me',
+            function (Request $request) {
+                return auth()->user();
+            }
+        );
+        Route::post('logout', [AuthController::class, 'logout']);
+    }
+);
