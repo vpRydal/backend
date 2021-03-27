@@ -22,6 +22,10 @@ class RealtyController extends Controller
             $realty->orderBy($request->sortBy, $request->sortType ?? 'desc');
         }
 
+        if ($request->has('searchField') and $request->has('searchValue')) {
+            $realty->where($request->searchField, 'like', "%$request->searchValue%");
+        }
+
         return new RealtyCollection($realty->paginate($perPage));
     }
 
