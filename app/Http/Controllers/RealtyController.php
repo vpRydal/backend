@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Realty as RealtyCollection;
+use App\Http\Resources\RealtyCollection;
 use App\Models\Realty;
 use Illuminate\Http\Request;
 

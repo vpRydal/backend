@@ -13,7 +13,7 @@ class Realty extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function realtyType(){
-        return $this->belongsTo(RealtyType::class);
+        return $this->belongsTo(RealtyType::class, 'type_id', 'id');
     }
 
     protected $casts = [
