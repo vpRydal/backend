@@ -15,9 +15,14 @@ class RealtyController extends Controller
      */
     public function realties(Request $request)
     {
-        $request->has('count') ? $count = $request->get('count') : $count = 10;
         $realty = $this->filter($request);
-        return new RealtyCollection($realty->paginate($count));
+        $request->has('perPage') ? $perPage = $request->get('perPage') : $perPage = 10;
+
+        if ($request->has('sortBy')) {
+            $realty->orderBy($request->sortBy, $request->sortType ?? 'desc');
+        }
+
+        return new RealtyCollection($realty->paginate($perPage));
     }
 
     /**
