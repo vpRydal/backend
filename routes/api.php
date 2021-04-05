@@ -81,12 +81,11 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(
     ['middleware' => ['auth:sanctum']],
     function () {
-        Route::get(
-            '/me',
-            function (Request $request) {
-                return auth()->user();
-            }
+        Route::put(
+            '/realty/{id}',
+            [RealtyController::class,'change']
         );
         Route::post('logout', [AuthController::class, 'logout']);
+
     }
 );
