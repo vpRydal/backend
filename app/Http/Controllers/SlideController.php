@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use App\Models\Slide;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-class ContactController extends Controller
+class SlideController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Contact[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $contacts=Contact::all();
-        if (!$contacts){
-            return response()->json(['error'=>true,'message'=>'No contacts'],404);
-        }
-
-        return $contacts;
+        return Slide::all();
     }
 
     /**

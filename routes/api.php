@@ -1,14 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsController;
 use \App\Http\Controllers\RealtyController;
-use App\Http\Resources\Contact as ContactResource;
-use App\Models\Contact;
-use App\Models\Realty;
-use App\Models\RealtyType;
-use App\Models\Slide;
-use Illuminate\Http\Request;
+use App\Http\Controllers\RealtyTypeController;
+use App\Http\Controllers\SlideController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,71 +20,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get(
-    '/user',
-    function (Request $request) {
-        return $request->user();
-    }
-);
-
-
-Route::get(
-    'slides',
-    function () {
-        return Slide::all();
-    }
-)->name("slides");
-
-Route::get(
-    'contacts',
-    function () {
-        return Contact::all();
-    }
-)->name('contacts');
-
-Route::get('news', NewsController::class);
-Route::get('news/{news}', [NewsController::class, 'get']);
-
-Route::get('realties/minmax', [RealtyController::class, 'gitMinMax']);
-
-Route::get('realties', [RealtyController::class, 'realties']);
-
-Route::get('realties/count', [RealtyController::class, 'counteRealties']);
-
-Route::get('realties/map', [RealtyController::class, 'mapRealties']);
-
-Route::get(
-    'realty/{id}',
-    function ($id) {
-        return Realty::find($id);
-    }
-);
-
-Route::get(
-    'type/{id}',
-    function ($id) {
-        return RealtyType::find($id);
-    }
-);
-
-Route::get(
-    'types',
-    function () {
-        return RealtyType::all();
-    }
-);
-
-
 Route::post('login', [AuthController::class, 'login']);
 
-Route::group(
-    ['middleware' => ['auth:sanctum']],
-    function () {
-        Route::put(
-            '/realty/{id}',
-            [RealtyController::class,'change']
-        );
-        Route::post('logout', [AuthController::class, 'logout']);
+Route::prefix('realty')->group(function () {
+    Route::get('map', [RealtyController::class, 'mapRealty']);
+    Route::get('count', [RealtyController::class, 'count']);
+    Route::get('minMax', [RealtyController::class, 'minMax']);
+});
 
-    }
-);
+Route::apiResource('realtyType', RealtyTypeController::class)->only(['index', 'show']);
+Route::apiResource('news', NewsController::class)->only(['index', 'show']);
+Route::apiResource('slide', SlideController::class)->only(['index']);
+Route::apiResource('contact', ContactController::class)->only(['index']);
+Route::apiResource('realty', RealtyController::class)->only(['index', 'update', 'show']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('user/byToken', [UserController::class, 'byToken']);
+    Route::post('logout', [AuthController::class, 'logout']);
+
+});

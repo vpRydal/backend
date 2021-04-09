@@ -14,25 +14,58 @@ class ContactsSeeder extends Seeder
      */
     public function run()
     {
-        $contact1=new Contact();
-        $contact1->type=Contact::TYPE_PHONE;
-        $contact1->value="+73241342123";
-        $contact1->user_id=1;
-        $contact1->is_rent_department=true;
-        $contact1->save();
+        $contacts = [
+            [
+                "value" => "+7(978) 801-43-83",
+                "type" => Contact::TYPE_PHONE,
+                'header' => 'Менеджер проекта',
+                "is_rent_department" => false,
+                'user_id' => 1
+            ],
+            [
+                "value" => "elena@sferos.com",
+                "type" => Contact::TYPE_EMAIL,
+                'header' => 'email',
+                "is_rent_department" => false,
+                'user_id' => 1
+            ],
+            [
+                "value" => "irina@sferos.com",
+                'header' => 'email',
+                "type" => Contact::TYPE_EMAIL,
+                "is_rent_department" => false,
+                'user_id' => 1
+            ],
+            [
+                "value" => "+7 (978) 734-58-55",
+                "type" => Contact::TYPE_PHONE,
+                "is_rent_department" => true,
+                'user_id' => 1,
+                'header' => ''
+            ],
+            [
+                "value" => "+7 (978) 268-72-55",
+                "type" => Contact::TYPE_PHONE,
+                "is_rent_department" => true,
+                'user_id' => 1,
+                'header' => ''
+            ],
+            [
+                "value" => "+7 (978) 734-58-99",
+                "type" => Contact::TYPE_PHONE,
+                "is_rent_department" => true,
+                'user_id' => 1,
+                'header' => ''
+            ],
+            [
+                "value" => "+7 (918) 473-08-39",
+                "type" => Contact::TYPE_PHONE,
+                "is_rent_department" => true,
+                'user_id' => 1,
+                'header' => ''
+            ]
+        ];
 
-        $contact2=new Contact();
-        $contact2->type=Contact::TYPE_PHONE;
-        $contact2->value="+73241342122";
-        $contact2->user_id=1;
-        $contact1->is_rent_department=false;
-        $contact2->save();
-
-        $contact3=new Contact();
-        $contact3->type=Contact::TYPE_EMAIL;
-        $contact3->value="advs@gmail.con";
-        $contact3->user_id=1;
-        $contact1->is_rent_department=true;
-        $contact3->save();
+        Contact::insert($contacts);
     }
 }

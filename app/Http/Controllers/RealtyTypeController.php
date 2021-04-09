@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
-use App\Models\Slide;
+use App\Models\RealtyType;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-class ContactController extends Controller
+class RealtyTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Contact[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\JsonResponse
+     * @return RealtyType[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        $contacts=Contact::all();
-        if (!$contacts){
-            return response()->json(['error'=>true,'message'=>'No contacts'],404);
-        }
-
-        return $contacts;
+        return RealtyType::all();
     }
 
     /**
@@ -38,22 +31,22 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slide  $slide
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\RealtyType  $realtyType
+     * @return RealtyType
      */
-    public function show(Slide $slide)
+    public function show(RealtyType $realtyType)
     {
-        //
+        return $realtyType;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slide  $slide
+     * @param  \App\Models\RealtyType  $realtyType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slide $slide)
+    public function update(Request $request, RealtyType $realtyType)
     {
         //
     }
@@ -61,10 +54,10 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slide  $slide
+     * @param  \App\Models\RealtyType  $realtyType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slide $slide)
+    public function destroy(RealtyType $realtyType)
     {
         //
     }

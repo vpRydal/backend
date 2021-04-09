@@ -14,24 +14,29 @@ class RealtyTypeSeeder extends Seeder
      */
     public function run()
     {
-        $realtyType=new RealtyType();
-        $realtyType->id=1;
-        $realtyType->name='Оффис';
-        $realtyType->save();
+        $types = [
+            [
+                'name' => 'Оффис',
+                'img_path' => '/storage/image/image.jpg'
+            ],
+            [
+                'name' => 'Склад',
+                'img_path' => '/storage/image/image.jpg'
+            ],
+            [
+                'name' => 'Земля',
+                'img_path' => '/storage/image/image.jpg'
+            ],
+            [
+                'name' => 'Ангар',
+                'img_path' => '/storage/image/image.jpg'
+            ],
+            [
+                'name' => 'Офисные блоки',
+                'img_path' => '/storage/image/image.jpg'
+            ]
+        ];
 
-        $realtyType1=new RealtyType();
-        $realtyType1->id=2;
-        $realtyType1->name='Склад';
-        $realtyType1->save();
-
-        $realtyType2=new RealtyType();
-        $realtyType2->id=3;
-        $realtyType2->name='Земля';
-        $realtyType2->save();
-
-        $realtyType3=new RealtyType();
-        $realtyType3->id=4;
-        $realtyType3->name='Ангар';
-        $realtyType3->save();
+        RealtyType::insert($types);
     }
 }

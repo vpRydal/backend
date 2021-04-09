@@ -17,6 +17,7 @@ class CreateContactsTable extends Migration
             $table->id();
             $table->boolean('is_rent_department')->default(true);
             $table->string("value")->unique();
+            $table->string("header")->nullable();
             $table->string("type")->default('phone');//or email
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

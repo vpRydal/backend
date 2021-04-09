@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RealtyCollection;
 use App\Models\Realty;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class RealtyController extends Controller
 {
     /**
-     * @param Request $request
+     * Display a listing of the resource.
      *
      * @return RealtyCollection
      */
-    public function realties(Request $request)
+    public function index(Request $request)
     {
         $realty = $this->filter($request);
         $request->has('perPage') ? $perPage = $request->get('perPage') : $perPage = 10;
@@ -30,28 +31,93 @@ class RealtyController extends Controller
     }
 
     /**
-     * @param Request $request
+     * Store a newly created resource in storage.
      *
-     * @return array
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function counteRealties(Request $request)
+    public function store(Request $request)
     {
-        $realty = $this->filter($request);
-        return ['amount' => $realty->count()];
+        //
     }
 
     /**
-     * @param Request $request
+     * Display the specified resource.
      *
-     * @return mixed
+     * @param  \App\Models\Realty  $realty
+     * @return \Illuminate\Http\Response
      */
-    public function mapRealties(Request $request)
+    public function show(Realty $realty)
     {
-        $realty = $this->filter($request);
-        return $realty->get();
+        return $realty;
     }
 
-    public function gitMinMax(Request $request)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Realty  $realty
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Realty $realty)
+    {
+        try {
+            if ($request->hasFile('img_path')) {
+                $path = $request->file('img_path')->store('public/image');
+                $path=explode('/',$path);
+                $path[0]='storage';
+                $path=implode("/", $path);
+                $realty->img_path=$path;
+            }
+            $this->setValue($request,$realty,'photo');
+            if ($request->hasFile('newPhoto')) {
+                $files=[];
+                //throw new \Exception($request->file('newPhoto'));
+                foreach ($request->allFiles() as $file){
+                    $path=$file->store('public/image');
+                    $path=explode('/',$path);
+                    $path[0]='/storage';
+                    $path=implode("/", $path);
+                    $files[]=$path;
+                }
+                $realty->photo=array_merge($files,$realty->photo);
+            }
+
+            $this->setValue($request,$realty,'description');
+            $this->setValue($request,$realty,'name');
+            $this->setValue($request,$realty,'renovation');
+            $this->setValue($request,$realty,'heating');
+            $this->setValue($request,$realty,'area');
+            $this->setValue($request,$realty,'price');
+            $this->setValue($request,$realty,'price_per_metr');
+            $this->setValue($request,$realty,'restroom');
+            $this->setValue($request,$realty,'access');
+            $this->setValue($request,$realty,'furniture');
+            $this->setValue($request,$realty,'energy');
+            $this->setValue($request,$realty,'latitude');
+            $this->setValue($request,$realty,'longitude');
+            $realty->name=$request->post('name');
+            if(!$realty->save()){
+                throw new \Exception('Cannot save property');
+            }
+            return $realty;
+        }catch (\Exception $e){
+            return ['error'=>$e->getMessage()];
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Realty  $realty
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Realty $realty)
+    {
+        //
+    }
+
+    public function minMax(Request $request): array
     {
         $realty = $this->filter($request);
         return [
@@ -62,6 +128,28 @@ class RealtyController extends Controller
             'areaMin' => $realty->min('area'),
             'areaMax' => $realty->max('area')
         ];
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function count(Request $request)
+    {
+        $realty = $this->filter($request);
+        return ['amount' => $realty->count()];
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function mapRealty(Request $request)
+    {
+        $realty = $this->filter($request);
+        return $realty->get();
     }
 
     /**
@@ -130,53 +218,5 @@ class RealtyController extends Controller
     }
     private function setValue(Request $request,Realty $realty, $property){
         $realty->$property = $request->post($property, $realty->$property);
-    }
-
-
-    public function change($id,Request $request){
-        try {
-            $realty = Realty::findOrFail($id);
-            if ($request->hasFile('img_path')) {
-                $path = $request->file('img_path')->store('public/image');
-                $path=explode('/',$path);
-                $path[0]='storage';
-                $path=implode("/", $path);
-                $realty->img_path=$path;
-            }
-            $this->setValue($request,$realty,'photo');
-            if ($request->hasFile('newPhoto')) {
-                $files=[];
-                //throw new \Exception($request->file('newPhoto'));
-                foreach ($request->allFiles() as $file){
-                    $path=$file->store('public/image');
-                    $path=explode('/',$path);
-                    $path[0]='/storage';
-                    $path=implode("/", $path);
-                    $files[]=$path;
-                }
-                $realty->photo=array_merge($files,$realty->photo);
-            }
-
-            $this->setValue($request,$realty,'description');
-            $this->setValue($request,$realty,'name');
-            $this->setValue($request,$realty,'renovation');
-            $this->setValue($request,$realty,'heating');
-            $this->setValue($request,$realty,'area');
-            $this->setValue($request,$realty,'price');
-            $this->setValue($request,$realty,'price_per_metr');
-            $this->setValue($request,$realty,'restroom');
-            $this->setValue($request,$realty,'access');
-            $this->setValue($request,$realty,'furniture');
-            $this->setValue($request,$realty,'energy');
-            $this->setValue($request,$realty,'latitude');
-            $this->setValue($request,$realty,'longitude');
-            $realty->name=$request->post('name');
-            if(!$realty->save()){
-                throw new \Exception('Cannot save property');
-            }
-            return $realty;
-        }catch (\Exception $e){
-            return ['error'=>$e->getMessage()];
-        }
     }
 }

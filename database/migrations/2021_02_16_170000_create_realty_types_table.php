@@ -16,6 +16,7 @@ class CreateRealtyTypesTable extends Migration
         Schema::create('realty_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('img_path');
         });
     }
 

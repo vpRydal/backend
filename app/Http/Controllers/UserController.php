@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
-use App\Models\Slide;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
-class ContactController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Contact[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $contacts=Contact::all();
-        if (!$contacts){
-            return response()->json(['error'=>true,'message'=>'No contacts'],404);
-        }
-
-        return $contacts;
+        //
     }
 
     /**
@@ -38,10 +32,10 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slide  $slide
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Slide $slide)
+    public function show(User $user)
     {
         //
     }
@@ -50,10 +44,10 @@ class ContactController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slide  $slide
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slide $slide)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -61,11 +55,20 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slide  $slide
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slide $slide)
+    public function destroy(User $user)
     {
         //
+    }    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+ */
+    public function byToken()
+    {
+        return Auth::user();
     }
+
 }
