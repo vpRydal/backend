@@ -128,4 +128,55 @@ class RealtyController extends Controller
         }
         return $realty;
     }
+    private function setValue(Request $request,Realty $realty, $property){
+        $realty->$property = $request->post($property, $realty->$property);
+    }
+
+
+    public function change($id,Request $request){
+        try {
+            $realty = Realty::findOrFail($id);
+            if ($request->hasFile('img_path')) {
+                $path = $request->file('img_path')->store('public/image');
+                $path=explode('/',$path);
+                $path[0]='storage';
+                $path=implode("/", $path);
+                $realty->img_path=$path;
+            }
+            $this->setValue($request,$realty,'photo');
+            if ($request->hasFile('newPhoto')) {
+                $files=[];
+                //throw new \Exception($request->file('newPhoto'));
+                foreach ($request->allFiles() as $file){
+                    $path=$file->store('public/image');
+                    $path=explode('/',$path);
+                    $path[0]='/storage';
+                    $path=implode("/", $path);
+                    $files[]=$path;
+                }
+                $realty->photo=array_merge($files,$realty->photo);
+            }
+
+            $this->setValue($request,$realty,'description');
+            $this->setValue($request,$realty,'name');
+            $this->setValue($request,$realty,'renovation');
+            $this->setValue($request,$realty,'heating');
+            $this->setValue($request,$realty,'area');
+            $this->setValue($request,$realty,'price');
+            $this->setValue($request,$realty,'price_per_metr');
+            $this->setValue($request,$realty,'restroom');
+            $this->setValue($request,$realty,'access');
+            $this->setValue($request,$realty,'furniture');
+            $this->setValue($request,$realty,'energy');
+            $this->setValue($request,$realty,'latitude');
+            $this->setValue($request,$realty,'longitude');
+            $realty->name=$request->post('name');
+            if(!$realty->save()){
+                throw new \Exception('Cannot save property');
+            }
+            return $realty;
+        }catch (\Exception $e){
+            return ['error'=>$e->getMessage()];
+        }
+    }
 }
