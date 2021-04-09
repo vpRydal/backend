@@ -45,6 +45,7 @@ Route::get(
 )->name('contacts');
 
 Route::get('news', NewsController::class);
+Route::get('news/{news}', [NewsController::class, 'get']);
 
 Route::get('realties/minmax', [RealtyController::class, 'gitMinMax']);
 

@@ -18,4 +18,9 @@ class NewsController extends Controller
         $request->has('count')?$count=$request->get('count'):$count=5;
         return new NewsCollection(News::paginate($count));
     }
+
+    public function get(News $news)
+    {
+       return $news;
+    }
 }
