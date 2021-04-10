@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RealtyCollection;
 use App\Models\Realty;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class RealtyController extends Controller
 {
@@ -160,29 +159,17 @@ class RealtyController extends Controller
     public function filter(Request $request)
     {
         $realty = Realty::whereNotNull('description');
+
+        if ($request->has('equipments')) {
+            $realty->whereHas('equipments', function($query) use ($request) {
+                $query->whereIn('equipment.id', $request->equipments);
+            });
+        }
         if ($request->has('types')) {
             $realty->whereIn('type_id', $request->get('types'));
         }
         if ($request->has('exceptedId')) {
             $realty->whereNotIn('id', $request->get('exceptedId'));
-        }
-        if ($request->has('renovation')) {
-            $realty->where(['renovation' => 1]);
-        }
-        if ($request->has('heating')) {
-            $realty->where(['heating' => 1]);
-        }
-        if ($request->has('restroom')) {
-            $realty->where(['restroom' => 1]);
-        }
-        if ($request->has('access')) {
-            $realty->where(['access' => 1]);
-        }
-        if ($request->has('furniture')) {
-            $realty->where(['furniture' => 1]);
-        }
-        if ($request->has('energy')) {
-            $realty->where(['energy' => $request->get('energy')]);
         }
         if ($request->has('areaMin')) {
             $realty->where('area', '>=', $request->get('areaMin'));

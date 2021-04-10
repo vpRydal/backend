@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Realty extends Model
 {
@@ -20,7 +21,7 @@ class Realty extends Model
         'photo' => 'array',
     ];
 
-    public function equipments()
+    public function equipments(): BelongsToMany
     {
         return $this->belongsToMany(Equipment::class, RealtyEquipment::class);
     }
