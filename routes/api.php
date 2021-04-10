@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\NewsController;
 use \App\Http\Controllers\RealtyController;
 use App\Http\Controllers\RealtyTypeController;
@@ -33,6 +34,7 @@ Route::apiResource('news', NewsController::class)->only(['index', 'show']);
 Route::apiResource('slide', SlideController::class)->only(['index']);
 Route::apiResource('contact', ContactController::class)->only(['index']);
 Route::apiResource('realty', RealtyController::class)->only(['index', 'update', 'show']);
+Route::apiResource('equipment', EquipmentController::class)->only(['index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user/byToken', [UserController::class, 'byToken']);

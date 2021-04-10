@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Equipment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
                 SlidesSeeder::class,
                 ContactsSeeder::class,
                 RealtyTypeSeeder::class,
+                EquipmentSeeder::class,
                 RealtySeeder::class
             ]
         );

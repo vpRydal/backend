@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Equipment;
 use App\Models\Realty;
-use Faker\Generator;
 use Illuminate\Database\Seeder;
 
 class RealtySeeder extends Seeder
@@ -15,6 +15,18 @@ class RealtySeeder extends Seeder
      */
     public function run()
     {
-        Realty::factory(100)->create();
+        $equipments = Equipment::select('id')->get();
+
+        Realty::factory(100)->create()->each(function (Realty $realty) use ($equipments) {
+            $equipmentsToAttach = $equipments->reduce(function ($acc, $equipment) {
+               if (random_int(0, 1)) {
+                   $acc->push($equipment->id);
+               }
+
+               return $acc;
+            }, collect([]));
+
+            $realty->equipments()->attach($equipmentsToAttach);
+        });
     }
 }

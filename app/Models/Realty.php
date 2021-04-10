@@ -19,4 +19,9 @@ class Realty extends Model
     protected $casts = [
         'photo' => 'array',
     ];
+
+    public function equipments()
+    {
+        return $this->belongsToMany(Equipment::class, RealtyEquipment::class);
+    }
 }
