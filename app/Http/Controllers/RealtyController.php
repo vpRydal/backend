@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\RealtyCollection;
+use App\Http\Resources\RealtyResource;
 use App\Models\Realty;
 use Illuminate\Http\Request;
 
@@ -44,11 +45,11 @@ class RealtyController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Realty  $realty
-     * @return \Illuminate\Http\Response
+     * @return RealtyResource
      */
     public function show(Realty $realty)
     {
-        return $realty;
+        return RealtyResource::make($realty);
     }
 
     /**

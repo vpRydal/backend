@@ -17,8 +17,11 @@ class RealtyResource extends JsonResource
         return array_merge(
             parent::toArray($request),
             [
-                'realtyTypeName' => $this->realtyType->name
+                'realtyTypeName' => $this->realtyType->name,
+                'equipments' => $this->equipments ?? []
             ]
         );
     }
+
+    public static $wrap = false;
 }
