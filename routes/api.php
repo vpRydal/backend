@@ -33,11 +33,13 @@ Route::apiResource('realtyType', RealtyTypeController::class)->only(['index', 's
 Route::apiResource('news', NewsController::class)->only(['index', 'show']);
 Route::apiResource('slide', SlideController::class)->only(['index']);
 Route::apiResource('contact', ContactController::class)->only(['index']);
-Route::apiResource('realty', RealtyController::class)->only(['index', 'update', 'show']);
+Route::apiResource('realty', RealtyController::class)->only(['index', 'show']);
 Route::apiResource('equipment', EquipmentController::class)->only(['index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user/byToken', [UserController::class, 'byToken']);
     Route::post('logout', [AuthController::class, 'logout']);
 
+    Route::apiResource('realty', RealtyController::class)->only(['update', 'store', 'destroy']);
+    Route::delete('realty', [RealtyController::class, 'destroyMultiple']);
 });

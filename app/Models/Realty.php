@@ -21,6 +21,8 @@ class Realty extends Model
         'photo' => 'array',
     ];
 
+    protected $guarded = [];
+
     public function equipments(): BelongsToMany
     {
         return $this->belongsToMany(Equipment::class, RealtyEquipment::class);

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RealtyCollection;
 use App\Http\Resources\RealtyResource;
 use App\Models\Realty;
+use App\Models\RealtyEquipment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class RealtyController extends Controller
 {
@@ -21,6 +24,8 @@ class RealtyController extends Controller
 
         if ($request->has('sortBy')) {
             $realty->orderBy($request->sortBy, $request->sortType ?? 'desc');
+        } else {
+            $realty->orderBy('created_at', 'desc');
         }
 
         if ($request->has('searchField') and $request->has('searchValue')) {
@@ -34,11 +39,24 @@ class RealtyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RealtyResource
      */
     public function store(Request $request)
     {
-        //
+        $realty = Realty::make($request->only(['name', 'description', 'price', 'area', 'price_per_metr', 'type_id', 'longitude', 'latitude']));
+        $realty->img_path = '/storage/' . $request->file('img_path')->store('realty/images', 'public');
+        $realty->photo = collect($request->file('photo'))->map(function ($file) {
+            return '/storage/' . $file->store('realty/images', 'public');
+        });
+        $realty->user_id = Auth::user()->id;
+
+        $realty->save();
+
+        if ($request->has('equipments')) {
+            $realty->equipments()->attach($request->equipments);
+        }
+
+        return RealtyResource::make($realty);
     }
 
     /**
@@ -110,11 +128,21 @@ class RealtyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Realty  $realty
-     * @return \Illuminate\Http\Response
+     * @return bool
      */
     public function destroy(Realty $realty)
     {
-        //
+        // TODO: добавить удалдение фоток
+        return $realty->delete();
+    }
+
+    public function destroyMultiple(Request $request): int
+    {
+        // TODO: добавить удалдение фоток
+        RealtyEquipment::whereHas('realty', function ($q) use ($request) {
+            $q->whereIn('id', $request->id);
+        })->delete();
+        return Realty::destroy($request->id);
     }
 
     public function minMax(Request $request): array
