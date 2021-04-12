@@ -17,7 +17,7 @@ class RealtyTypeSeeder extends Seeder
         $types = [
             [
                 'name' => 'Оффис',
-                'img_path' => '/storage/image/image.jpg'
+                'img_path' => '/storage/image/town.png'
             ],
             [
                 'name' => 'Склад',
@@ -25,15 +25,15 @@ class RealtyTypeSeeder extends Seeder
             ],
             [
                 'name' => 'Земля',
-                'img_path' => '/storage/image/image.jpg'
+                'img_path' => '/storage/image/town3.png'
             ],
             [
                 'name' => 'Ангар',
-                'img_path' => '/storage/image/image.jpg'
+                'img_path' => '/storage/image/town1.png'
             ],
             [
                 'name' => 'Офисные блоки',
-                'img_path' => '/storage/image/image.jpg'
+                'img_path' => '/storage/image/town2.png'
             ]
         ];
 

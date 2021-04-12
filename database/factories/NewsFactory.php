@@ -21,11 +21,19 @@ class NewsFactory extends Factory
      */
     public function definition()
     {
+        $photos = [
+            '/storage/image/image.jpg',
+            '/storage/image/town.png',
+            '/storage/image/town1.png',
+            '/storage/image/town2.png',
+            '/storage/image/town3.png',
+            '/storage/image/town4.png',
+        ];
         return [
             'header' => $this->faker->unique()->realText(70),
             'content' => $this->faker->unique()->realText(),
             'user_id' => 1,
-            'photo' => '/storage/image/image.jpg'
+            'photo' => $this->faker->randomElement($photos)
         ];
     }
 }
