@@ -17,6 +17,7 @@ class CreateEquipmentTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('display_name');
+            $table->foreignId("realty_type_id")->constrained();
 
             $table->timestamps();
         });

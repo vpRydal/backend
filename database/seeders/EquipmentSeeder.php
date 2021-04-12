@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Equipment;
+use App\Models\RealtyType;
 use Illuminate\Database\Seeder;
 
 class EquipmentSeeder extends Seeder
@@ -14,26 +15,33 @@ class EquipmentSeeder extends Seeder
      */
     public function run()
     {
+        $types = RealtyType::all();
+
         $equipment = [
             [
                 'name' => 'energy',
-                'display_name' => 'Индивидуальный узел учёта электроэнергии'
+                'display_name' => 'Индивидуальный узел учёта электроэнергии',
+                'realty_type_id' => $types->random()->id
             ],
             [
                 'name' => 'furniture',
-                'display_name' => 'Мебелью укомплектован'
+                'display_name' => 'Мебелью укомплектован',
+                'realty_type_id' => $types->random()->id
             ],
             [
                 'name' => 'restroom',
-                'display_name' => 'Отдельный санузел'
+                'display_name' => 'Отдельный санузел',
+                'realty_type_id' => $types->random()->id
             ],
             [
                 'name' => 'heating',
-                'display_name' => 'Отопление'
+                'display_name' => 'Отопление',
+                'realty_type_id' => $types->random()->id
             ],
             [
                 'name' => 'access',
-                'display_name' => 'Круглосуточный доступ'
+                'display_name' => 'Круглосуточный доступ',
+                'realty_type_id' => $types->random()->id
             ]
         ];
         Equipment::insert($equipment);
