@@ -18,7 +18,6 @@ class CreateSlidesTable extends Migration
             $table->text("header")->nullable();
             $table->text('content')->nullable();
             $table->string('image');
-            $table->string("ref")->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
