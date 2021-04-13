@@ -75,51 +75,51 @@ class RealtyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Realty  $realty
-     * @return \Illuminate\Http\Response
+     * @return RealtyResource
      */
     public function update(Request $request, Realty $realty)
     {
-        try {
-            if ($request->hasFile('img_path')) {
-                $path = $request->file('img_path')->store('public/image');
-                $path=explode('/',$path);
-                $path[0]='storage';
-                $path=implode("/", $path);
-                $realty->img_path=$path;
-            }
-            $this->setValue($request,$realty,'photo');
-            if ($request->hasFile('newPhoto')) {
-                $files=[];
-                //throw new \Exception($request->file('newPhoto'));
-                foreach ($request->allFiles() as $file){
-                    $path=$file->store('public/image');
-                    $path=explode('/',$path);
-                    $path[0]='/storage';
-                    $path=implode("/", $path);
-                    $files[]=$path;
+        $realty = $realty->fill($request->only(['name', 'description', 'price', 'photo', 'area', 'price_per_metr', 'type_id', 'longitude', 'latitude']));
+        $realtyEquipIds = collect($realty->equipments()->get())->map(function ($model) { return $model->id; });
+
+        if (!$request->has('photo')) {
+            $realty->photo = [];
+        }
+        if ($request->has('equipments')) {
+            $requestEquip = collect($request->equipments);
+
+            if ($realty->getOriginal('type_id') !== (int) $realty->type_id) {
+                $realty->equipments()->detach($realtyEquipIds);
+                $realty->equipments()->attach($requestEquip);
+            } else {
+                if ($requestEquip->diff($realtyEquipIds)->count() !== 0) {
+                    $equipmentsToDelete = $realtyEquipIds->diff($requestEquip);
+                    $equipmentsToAdd = $requestEquip->diff($realtyEquipIds);
+
+                    $realty->equipments()->detach($equipmentsToDelete);
+                    $realty->equipments()->attach($equipmentsToAdd);
                 }
-                $realty->photo=array_merge($files,$realty->photo);
+            }
+        } else {
+            $realty->equipments()->detach($realtyEquipIds);
+        }
+        try {
+            // TODO: добавить удалдение фоток
+            if ($request->hasFile('img_path')) {
+                $realty->img_path = '/storage/' . $request->file('img_path')->store('realty/images', 'public');
             }
 
-            $this->setValue($request,$realty,'description');
-            $this->setValue($request,$realty,'name');
-            $this->setValue($request,$realty,'renovation');
-            $this->setValue($request,$realty,'heating');
-            $this->setValue($request,$realty,'area');
-            $this->setValue($request,$realty,'price');
-            $this->setValue($request,$realty,'price_per_metr');
-            $this->setValue($request,$realty,'restroom');
-            $this->setValue($request,$realty,'access');
-            $this->setValue($request,$realty,'furniture');
-            $this->setValue($request,$realty,'energy');
-            $this->setValue($request,$realty,'latitude');
-            $this->setValue($request,$realty,'longitude');
-            $realty->name=$request->post('name');
-            if(!$realty->save()){
+            // TODO: добавить удалдение фоток
+            if ($request->hasFile('newPhoto')) {
+                $realty->photo = collect($request->file('newPhoto'))->map(function ($file) {
+                    return '/storage/' . $file->store('realty/images', 'public');
+                })->merge($realty->photo);
+            }
+            if(!$realty->update()){
                 throw new \Exception('Cannot save property');
             }
-            return $realty;
-        }catch (\Exception $e){
+            return RealtyResource::make($realty);
+        } catch (\Exception $e) {
             return ['error'=>$e->getMessage()];
         }
     }
@@ -231,8 +231,5 @@ class RealtyController extends Controller
             $realty->where('price_per_metr', '<=', $request->get('pricePerMetrMax'));
         }
         return $realty;
-    }
-    private function setValue(Request $request,Realty $realty, $property){
-        $realty->$property = $request->post($property, $realty->$property);
     }
 }

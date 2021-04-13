@@ -21,8 +21,8 @@ class CreateRealtiesTable extends Migration
             $table->float('area');
             $table->integer('price');
             $table->integer('price_per_metr');
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->text('latitude');
+            $table->text('longitude');
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->json('photo');
             $table->unsignedBigInteger('type_id');
