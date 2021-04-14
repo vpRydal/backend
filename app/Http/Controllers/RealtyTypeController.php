@@ -25,7 +25,12 @@ class RealtyTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $realtyType = RealtyType::make($request->only(['name']));
+        $realtyType->img_path = '/storage/' . $request->file('img_path')->store('realtyType/images', 'public');
+
+        $realtyType->save();
+
+        return $realtyType;
     }
 
     /**
@@ -44,11 +49,20 @@ class RealtyTypeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\RealtyType  $realtyType
-     * @return \Illuminate\Http\Response
+     * @return RealtyType
      */
     public function update(Request $request, RealtyType $realtyType)
     {
-        //
+        $realtyType->fill($request->only(['name']));
+
+        // TODO: добавить удалдение фотоки
+        if ($request->hasFile('img_path')) {
+            $realtyType->img_path = '/storage/' . $request->file('img_path')->store('realtyType/images', 'public');
+        }
+
+        $realtyType->update();
+
+        return $realtyType;
     }
 
     /**
@@ -59,6 +73,13 @@ class RealtyTypeController extends Controller
      */
     public function destroy(RealtyType $realtyType)
     {
-        //
+        // TODO: добавить удалдение фотоки
+        return $realtyType->delete();
+    }
+
+    public function destroyMultiple(Request $request)
+    {
+        // TODO: добавить удалдение фотоки
+        return RealtyType::whereIn('id', $request->id)->delete();
     }
 }

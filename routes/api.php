@@ -41,5 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
     Route::apiResource('realty', RealtyController::class)->only(['update', 'store', 'destroy']);
+    Route::apiResource('realtyType', RealtyTypeController::class)->only(['update', 'store', 'destroy']);
     Route::delete('realty', [RealtyController::class, 'destroyMultiple']);
+    Route::delete('realtyType', [RealtyTypeController::class, 'destroyMultiple']);
 });

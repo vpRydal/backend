@@ -18,4 +18,6 @@ class RealtyType extends Model
 
     public $timestamps=false;
 
+    protected $guarded = [];
+
 }
