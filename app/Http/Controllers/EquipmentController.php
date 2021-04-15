@@ -63,7 +63,7 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, Equipment $equipment)
     {
-        $equip = $equipment::fill($request->only(['name', 'display_name', 'realty_type_id']));
+        $equip = $equipment->fill($request->only(['name', 'display_name', 'realty_type_id']));
         $equip->update();
 
         return EquipmentResource::make($equipment);
