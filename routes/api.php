@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('news', NewsController::class)->only(['update', 'store', 'destroy']);
     Route::apiResource('equipment', EquipmentController::class)->only(['update', 'store', 'destroy']);
     Route::apiResource('slide', SlideController::class)->only(['update', 'store', 'destroy']);
+    Route::apiResource('contact', ContactController::class)->only(['update', 'store', 'destroy']);
 
 
     Route::delete('realty', [RealtyController::class, 'destroyMultiple']);
@@ -52,4 +53,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('news', [NewsController::class, 'destroyMultiple']);
     Route::delete('equipment', [EquipmentController::class, 'destroyMultiple']);
     Route::delete('slide', [SlideController::class, 'destroyMultiple']);
+    Route::delete('contact', [ContactController::class, 'destroyMultiple']);
 });

@@ -9,6 +9,8 @@ class Contact extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     const TYPE_PHONE="phone";
     const TYPE_EMAIL="email";
 
@@ -18,6 +20,4 @@ class Contact extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
-
-
 }

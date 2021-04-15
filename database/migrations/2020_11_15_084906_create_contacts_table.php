@@ -19,7 +19,9 @@ class CreateContactsTable extends Migration
             $table->string("value")->unique();
             $table->string("header")->nullable();
             $table->string("type")->default('phone');//or email
+
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }
