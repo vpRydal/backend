@@ -18,4 +18,6 @@ class Slide extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    protected $guarded = [];
 }

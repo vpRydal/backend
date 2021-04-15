@@ -31,8 +31,8 @@ Route::prefix('realty')->group(function () {
 
 Route::apiResource('realtyType', RealtyTypeController::class)->only(['index', 'show']);
 Route::apiResource('news', NewsController::class)->only(['index', 'show']);
-Route::apiResource('slide', SlideController::class)->only(['index']);
-Route::apiResource('contact', ContactController::class)->only(['index']);
+Route::apiResource('slide', SlideController::class)->only(['index', 'show']);
+Route::apiResource('contact', ContactController::class)->only(['index', 'show']);
 Route::apiResource('realty', RealtyController::class)->only(['index', 'show']);
 Route::apiResource('equipment', EquipmentController::class)->only(['index', 'show']);
 
@@ -44,10 +44,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('realtyType', RealtyTypeController::class)->only(['update', 'store', 'destroy']);
     Route::apiResource('news', NewsController::class)->only(['update', 'store', 'destroy']);
     Route::apiResource('equipment', EquipmentController::class)->only(['update', 'store', 'destroy']);
+    Route::apiResource('slide', SlideController::class)->only(['update', 'store', 'destroy']);
 
 
     Route::delete('realty', [RealtyController::class, 'destroyMultiple']);
     Route::delete('realtyType', [RealtyTypeController::class, 'destroyMultiple']);
     Route::delete('news', [NewsController::class, 'destroyMultiple']);
     Route::delete('equipment', [EquipmentController::class, 'destroyMultiple']);
+    Route::delete('slide', [SlideController::class, 'destroyMultiple']);
 });
