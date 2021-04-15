@@ -16,7 +16,6 @@ class CreateEquipmentTable extends Migration
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('display_name');
             $table->foreignId("realty_type_id")->constrained();
 
             $table->timestamps();

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
-use App\Models\Realty;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 
 class EquipmentController extends Controller
 {
@@ -14,7 +13,7 @@ class EquipmentController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return Equipment[]|Collection|Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -26,7 +25,7 @@ class EquipmentController extends Controller
             });
         }
 
-        return $equipments->get();
+        return EquipmentResource::collection($equipments->get());
     }
 
 
@@ -34,44 +33,61 @@ class EquipmentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @return EquipmentResource
      */
     public function store(Request $request)
     {
-        //
+        $equip = Equipment::make($request->only(['name', 'display_name', 'realty_type_id']));
+        $equip->save();
+
+        return EquipmentResource::make($equip);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Equipment  $equipment
-     * @return Response
+     * @param Equipment $equipment
+     * @return EquipmentResource
      */
     public function show(Equipment $equipment)
     {
-        //
+        return EquipmentResource::make($equipment);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Equipment  $equipment
-     * @return Response
+     * @param Equipment $equipment
+     * @return EquipmentResource
      */
     public function update(Request $request, Equipment $equipment)
     {
-        //
+        $equip = $equipment::fill($request->only(['name', 'display_name', 'realty_type_id']));
+        $equip->update();
+
+        return EquipmentResource::make($equipment);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Equipment  $equipment
-     * @return Response
+     * @param Equipment $equipment
+     * @return bool
+     * @throws \Exception
      */
     public function destroy(Equipment $equipment)
     {
-        //
+        return $equipment->delete();
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function destroyMultiple(Request $request)
+    {
+        return Equipment::whereIn('id', $request->id)->delete();
     }
 }

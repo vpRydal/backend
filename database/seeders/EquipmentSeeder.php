@@ -19,28 +19,23 @@ class EquipmentSeeder extends Seeder
 
         $equipment = [
             [
-                'name' => 'energy',
-                'display_name' => 'Индивидуальный узел учёта электроэнергии',
+                'name' => 'Индивидуальный узел учёта электроэнергии',
                 'realty_type_id' => $types->random()->id
             ],
             [
-                'name' => 'furniture',
-                'display_name' => 'Мебелью укомплектован',
+                'name' => 'Мебелью укомплектован',
                 'realty_type_id' => $types->random()->id
             ],
             [
-                'name' => 'restroom',
-                'display_name' => 'Отдельный санузел',
+                'name' => 'Отдельный санузел',
                 'realty_type_id' => $types->random()->id
             ],
             [
-                'name' => 'heating',
-                'display_name' => 'Отопление',
+                'name' => 'Отопление',
                 'realty_type_id' => $types->random()->id
             ],
             [
-                'name' => 'access',
-                'display_name' => 'Круглосуточный доступ',
+                'name' => 'Круглосуточный доступ',
                 'realty_type_id' => $types->random()->id
             ]
         ];

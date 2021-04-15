@@ -17,6 +17,8 @@ class Equipment extends Model
         return $this->belongsToMany(Realty::class, RealtyEquipment::class);
     }
 
+    protected $guarded = [];
+
     public function realtyType(): BelongsTo
     {
         return $this->belongsTo(RealtyType::class);
