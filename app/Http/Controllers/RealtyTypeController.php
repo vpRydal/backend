@@ -26,7 +26,7 @@ class RealtyTypeController extends Controller
     public function store(Request $request)
     {
         $realtyType = RealtyType::make($request->only(['name']));
-        $realtyType->img_path = '/storage/' . $request->file('img_path')->store('realtyType/images', 'public');
+        $realtyType->img_path = '/storage/' . $request->file('img_path')->store('images/realtyType', 'public');
 
         $realtyType->save();
 
@@ -57,7 +57,7 @@ class RealtyTypeController extends Controller
 
         // TODO: добавить удалдение фотоки
         if ($request->hasFile('img_path')) {
-            $realtyType->img_path = '/storage/' . $request->file('img_path')->store('realtyType/images', 'public');
+            $realtyType->img_path = '/storage/' . $request->file('img_path')->store('images/realtyType', 'public');
         }
 
         $realtyType->update();

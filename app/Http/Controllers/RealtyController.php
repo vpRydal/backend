@@ -44,9 +44,9 @@ class RealtyController extends Controller
     public function store(Request $request)
     {
         $realty = Realty::make($request->only(['name', 'description', 'price', 'area', 'price_per_metr', 'type_id', 'longitude', 'latitude']));
-        $realty->img_path = '/storage/' . $request->file('img_path')->store('realty/images', 'public');
+        $realty->img_path = '/storage/' . $request->file('img_path')->store('images/realty', 'public');
         $realty->photo = collect($request->file('photo'))->map(function ($file) {
-            return '/storage/' . $file->store('realty/images', 'public');
+            return '/storage/' . $file->store('images/realty', 'public');
         });
         $realty->user_id = Auth::user()->id;
 
@@ -106,13 +106,13 @@ class RealtyController extends Controller
         try {
             // TODO: добавить удалдение фоток
             if ($request->hasFile('img_path')) {
-                $realty->img_path = '/storage/' . $request->file('img_path')->store('realty/images', 'public');
+                $realty->img_path = '/storage/' . $request->file('img_path')->store('images/realty', 'public');
             }
 
             // TODO: добавить удалдение фоток
             if ($request->hasFile('newPhoto')) {
                 $realty->photo = collect($request->file('newPhoto'))->map(function ($file) {
-                    return '/storage/' . $file->store('realty/images', 'public');
+                    return '/storage/' . $file->store('images/realty', 'public');
                 })->merge($realty->photo);
             }
             if(!$realty->update()){

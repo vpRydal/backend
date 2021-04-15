@@ -4,38 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\NewsCollection;
 use App\Models\News;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return NewsCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): NewsCollection
     {
         $request->has('count')?$count=$request->get('count'):$count=5;
-        return new NewsCollection(News::paginate($count));
+        return new NewsCollection(News::orderBy('id', 'DESC')->paginate($count));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-        //
+        $news = News::make($request->only(['header', 'content']));
+        $news->photo = '/storage/' . $request->file('photo')->store('images/news', 'public');
+        $news->user_id = Auth::user()->id;
+        $news->save();
+
+        return $news;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @param News $news
+     * @return News
      */
     public function show(News $news)
     {
@@ -45,23 +53,43 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param News $news
+     * @return News
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, News $news): News
     {
-        //
+        $news->fill($request->only(['header', 'content']));
+
+        if ($request->hasFile('photo')) {
+            // TODO: добавить удалдение фотоки
+            $news->photo = '/storage/' . $request->file('photo')->store('images/news', 'public');
+        }
+        $news->update();
+
+        return $news;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @param News $news
+     * @return bool
+     * @throws Exception
      */
-    public function destroy(News $news)
+    public function destroy(News $news): bool
     {
-        //
+        // TODO: добавить удалдение фотоки
+        return $news->delete();
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function destroyMultiple(Request $request)
+    {
+        // TODO: добавить удалдение фотоки
+        return News::whereIn('id', $request->id)->delete();
     }
 }
