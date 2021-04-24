@@ -19,7 +19,7 @@ class NewsController extends Controller
      */
     public function index(Request $request): NewsCollection
     {
-        $request->has('count')?$count=$request->get('count'):$count=5;
+        $request->has('perPage')?$count=$request->get('perPage'):$count=5;
         return new NewsCollection(News::orderBy('id', 'DESC')->paginate($count));
     }
 
