@@ -28,10 +28,12 @@ class SlideController extends Controller
      */
     public function store(Request $request)
     {
-        $news = Slide::make($request->only(['header', 'content']));
-        $news->image = '/storage/' . $request->file('image')->store('images/slide', 'public');
-        $news->user_id = Auth::user()->id;
-        $news->save();
+        $slide = Slide::make($request->only(['header', 'content']));
+        $slide->image = '/storage/' . $request->file('image')->store('images/slide', 'public');
+        $slide->user_id = Auth::user()->id;
+        $slide->save();
+
+        return $slide;
     }
 
     /**
