@@ -10,6 +10,24 @@ class News extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'photo',
+        'header',
+        'content',
+    ];
+
+    /**
+     * @param $value
+     *
+     * @return false|string
+     */
+    public function getPhoto($value){
+        $pics=json_decode($value);
+        foreach ($pics as $key=>$pick){
+            $pics[$key]=base_path().$pick;
+        }
+        return json_encode($pics);
+    }
     /**
      * Get the own User
      */

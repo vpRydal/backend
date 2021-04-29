@@ -9,17 +9,15 @@ class Contact extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+    const TYPE_PHONE="phone";
+    const TYPE_EMAIL="email";
+
     /**
      * Get the own User
      */
     public function user(){
         return $this->belongsTo('App\Models\User');
-    }
-
-    /**
-     * Get TypeContact
-     */
-    public function typeContact(){
-        return $this->belongsTo('App\Models\TypeContact');
     }
 }

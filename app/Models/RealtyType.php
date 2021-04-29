@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Slide extends Model
+class RealtyType extends Model
 {
     use HasFactory;
 
-    protected $hidden = ['user_id'];
-
     /**
-     * Get the own User
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
+    public function realty(){
+        return $this->hasMany(Realty::class);
     }
 
+    public $timestamps=false;
+
     protected $guarded = [];
+
 }

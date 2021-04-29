@@ -15,10 +15,13 @@ class CreateContactsTable extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('type_contact_id')->unsigned();
-            $table->foreign('type_contact_id')->references("id")->on("type_contacts");
+            $table->boolean('is_rent_department')->default(true);
             $table->string("value")->unique();
+            $table->string("header")->nullable();
+            $table->string("type")->default('phone');//or email
+
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }

@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class NewsCollection extends ResourceCollection
+class RealtyCollection extends ResourceCollection
 {
+    public $collects = RealtyResource::class;
     public static $wrap = 'data';
 
     /**
@@ -17,7 +18,7 @@ class NewsCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=>$this->collection,
+            'data' => $this->collection
         ];
     }
 }
